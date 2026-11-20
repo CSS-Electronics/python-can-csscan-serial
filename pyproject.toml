@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling >= 1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python-can-csscan-serial"
+version = "2026.11.20"
+authors = [
+    { name="CSS Electronics" },
+    { email="contact@csselectronics.com" },
+]
+description = "python-can interface for CSS Electronics devices with a USB serial interface (CANmod, CLX000)"
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'python-can >= 4.6.0',
+    'pyserial >= 3.5',
+]
+
+[project.optional-dependencies]
+test = [
+    'pytest >= 8.0',
+]
+hardware = [
+    'pytest >= 8.0',
+    'python-can-cansub >= 2026.09.28',
+]
+
+[project.entry-points."can.interface"]
+csscan_serial = "python_can_csscan_serial:CSSCANSerialBus"
+
+# Ship the README inside the installed package so it can be found and read locally.
+[tool.hatch.build.targets.wheel.force-include]
+"README.md" = "python_can_csscan_serial/README.md"
+
+[project.urls]
+"Homepage" = "https://csselectronics.com/"
+"Source" = "https://github.com/CSS-Electronics/python-can-csscan-serial"
+"Changelog" = "https://github.com/CSS-Electronics/python-can-csscan-serial/blob/master/CHANGELOG.md"
+
+[tool.pytest.ini_options]
+testpaths = [
+  "tests",
+]
+markers = [
+  "hardware: live tests through a CANmod/CLX000 and a CANsub (see tests/test_hardware.py)",
+]
